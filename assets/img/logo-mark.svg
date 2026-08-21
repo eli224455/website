@@ -1,0 +1,23 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 160" role="img" aria-labelledby="etMarkTitle">
+  <title id="etMarkTitle">Elizabeth Tesfaye Law Office</title>
+  <!-- Classic serif E -->
+  <g fill="#1B3654">
+    <path d="M24 16h16v128H24z"/>
+    <path d="M16 16h96v18H16z"/>
+    <path d="M24 71h72v16H24z"/>
+    <path d="M16 126h96v18H16z"/>
+    <path d="M16 12h24v10H16z"/>
+    <path d="M16 138h24v10H16z"/>
+  </g>
+  <!-- Ionic column forming the T -->
+  <g fill="#C4A35A">
+    <rect x="102" y="58" width="86" height="8"/>
+    <path d="M110 66c-12 0-18 7-18 16 0 8 7 13 14 9l3-7V66h78v18l3 7c7 4 14-1 14-9 0-9-6-16-18-16H110z"/>
+    <rect x="128" y="86" width="5.2" height="50"/>
+    <rect x="136.4" y="86" width="5.2" height="50"/>
+    <rect x="144.8" y="86" width="5.2" height="50"/>
+    <rect x="153.2" y="86" width="5.2" height="50"/>
+    <rect x="124" y="136" width="38" height="7"/>
+    <rect x="116" y="143" width="54" height="9"/>
+  </g>
+</svg>

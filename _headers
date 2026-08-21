@@ -1,0 +1,20 @@
+# Cloudflare Pages response headers.
+# (GitHub Pages ignores this file — it does not support custom headers.)
+
+/*
+  X-Content-Type-Options: nosniff
+  X-Frame-Options: SAMEORIGIN
+  Referrer-Policy: strict-origin-when-cross-origin
+  Permissions-Policy: geolocation=(), microphone=(), camera=(), interest-cohort=()
+  Strict-Transport-Security: max-age=31536000; includeSubDomains
+
+# Fingerprint-free assets: cache for a year, but re-validate CSS/JS on deploy
+# by bumping the ?v= query string in the templates if you ever need to.
+/assets/img/*
+  Cache-Control: public, max-age=31536000, immutable
+
+/assets/css/*
+  Cache-Control: public, max-age=604800
+
+/assets/js/*
+  Cache-Control: public, max-age=604800

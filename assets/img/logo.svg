@@ -1,0 +1,34 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 640 220" role="img" aria-labelledby="etLogoTitle">
+  <title id="etLogoTitle">Elizabeth Tesfaye Law Office — Addis Ababa, Ethiopia</title>
+  <g transform="translate(18,28) scale(1.35)">
+    <g fill="#1B3654">
+      <path d="M18 24h12v72H18z"/>
+      <path d="M14 24h46v11H14z"/>
+      <path d="M14 54.5h38v9H14z"/>
+      <path d="M14 85h46v11H14z"/>
+      <path d="M14 24h16v4H14z"/>
+      <path d="M14 92h16v4H14z"/>
+    </g>
+    <g fill="#C4A35A">
+      <rect x="54" y="24" width="52" height="10" rx="0.5"/>
+      <path d="M62 34h36l-6 8H68z"/>
+      <rect x="72.5" y="42" width="3.2" height="44"/>
+      <rect x="77.4" y="42" width="3.2" height="44"/>
+      <rect x="82.3" y="42" width="3.2" height="44"/>
+      <rect x="87.2" y="42" width="3.2" height="44"/>
+      <rect x="68" y="86" width="22" height="6"/>
+      <rect x="63" y="92" width="32" height="8"/>
+    </g>
+  </g>
+  <text x="210" y="92" fill="#1B3654"
+        font-family="Cormorant Garamond, Palatino, Georgia, serif"
+        font-size="36" font-weight="600" letter-spacing="3.2">ELIZABETH TESFAYE</text>
+  <line x1="210" y1="112" x2="292" y2="112" stroke="#C4A35A" stroke-width="1.2"/>
+  <line x1="478" y1="112" x2="560" y2="112" stroke="#C4A35A" stroke-width="1.2"/>
+  <text x="385" y="118" text-anchor="middle" fill="#C4A35A"
+        font-family="Inter, Helvetica, Arial, sans-serif"
+        font-size="13" font-weight="600" letter-spacing="6">LAW OFFICE</text>
+  <text x="385" y="148" text-anchor="middle" fill="#1B3654"
+        font-family="Inter, Helvetica, Arial, sans-serif"
+        font-size="12" font-weight="500" letter-spacing="3.8">ADDIS ABABA, ETHIOPIA</text>
+</svg>

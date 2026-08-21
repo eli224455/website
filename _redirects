@@ -1,0 +1,19 @@
+# Cloudflare Pages redirects.
+# (GitHub Pages ignores this file.)
+#
+# Short, memorable URLs for business cards, adverts and printed material.
+# Each one forwards to the full SEO-friendly page URL.
+
+/family-law           /family-law-addis-ababa/              301
+/divorce              /family-law-addis-ababa/              301
+/litigation           /civil-litigation-ethiopia/           301
+/inheritance          /succession-inheritance-ethiopia/     301
+/succession           /succession-inheritance-ethiopia/     301
+/business-law         /business-corporate-law-addis-ababa/  301
+/company              /business-corporate-law-addis-ababa/  301
+/criminal-law         /criminal-defense-lawyer-addis-ababa/ 301
+/defense              /criminal-defense-lawyer-addis-ababa/ 301
+/consultation         /legal-consultation-ethiopia/         301
+/services             /practice-areas/                      301
+/questions            /faq/                                 301
+/blog                 /insights/                            301
