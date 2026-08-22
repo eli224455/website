@@ -316,6 +316,9 @@ html[lang="am"] .i18n-en.i18n-block { display: none; }
   background: var(--ivory);
   color: var(--ink);
   padding: 0;
+  /* The base .hero clips its absolutely positioned media; nothing here needs
+     clipping, and it must not be able to trim the photograph. */
+  overflow: visible;
 }
 .hero--light::before, .hero--light::after { display: none; }
 .hero-split {
@@ -370,14 +373,16 @@ html[lang="am"] .i18n-en.i18n-block { display: none; }
 .hero--light .hero-meta dd { color: var(--navy); font-weight: 550; }
 .hero--light .hero-meta a { color: var(--navy); text-decoration: none; }
 .hero--light .hero-meta a:hover { color: var(--gold); }
-/* Matted frame that tracks the copy column's height, so the two sides stay
-   balanced without cropping the 16:9 source into a narrow portrait strip. */
+/* The gold rule spans the full column height and acts as a mount; the
+   photograph sits centred inside it at its own 16:9 ratio, so no part of the
+   frame is ever cropped away. */
 .hero-visual {
   margin: 0;
   position: relative;
   display: flex;
-  align-items: stretch;
+  align-items: center;
   align-self: stretch;
+  overflow: visible;
   padding: clamp(1.25rem, 1.8vw, 2rem) clamp(1.25rem, 2.2vw, 2.5rem);
 }
 .hero-visual::before {
@@ -393,10 +398,12 @@ html[lang="am"] .i18n-en.i18n-block { display: none; }
 .hero-visual img {
   position: relative;
   width: 100%;
-  height: 100%;
-  min-height: 26rem;
+  /* Matches the 1024x576 source exactly, so cover has nothing to trim. */
+  aspect-ratio: 16 / 9;
+  height: auto;
+  align-self: center;
   object-fit: cover;
-  object-position: 38% 50%;
+  object-position: center;
   display: block;
   box-shadow: 0 24px 60px rgba(16, 32, 51, .16);
 }
@@ -810,19 +817,19 @@ html[lang="am"] .i18n-en.i18n-block { display: none; }
 .reveal.is-visible { opacity: 1; transform: none; }
 @media (prefers-reduced-motion: reduce) { .reveal { opacity: 1; transform: none; } }
 
-@media (max-width: 980px) {
+/* Below this the split columns are too narrow to mount a 16:9 photograph
+   without stranding it in whitespace, so the hero stacks and the image runs
+   edge to edge instead. */
+@media (max-width: 1100px) {
   .hero-split { grid-template-columns: 1fr; }
   .hero-visual { order: -1; padding: 0; align-self: auto; }
   .hero-visual::before { display: none; }
-  .hero-visual img {
-    aspect-ratio: 16 / 9;
-    height: auto;
-    min-height: 0;
-    object-position: 50% 38%;
-    box-shadow: none;
-  }
+  .hero-visual img { box-shadow: none; }
   .hero-copy { padding: clamp(2rem, 5vw, 3rem) clamp(1.25rem, 4vw, 2rem) clamp(2.4rem, 5vw, 3.4rem); }
   .hero-copy::after { display: none; }
+}
+
+@media (max-width: 980px) {
   .hero--light .hero-meta { grid-template-columns: 1fr 1fr; gap: 1.35rem 2rem; }
   .trust-grid { grid-template-columns: 1fr 1fr; gap: 1.5rem 1.25rem; }
   .trust-item { border-left: 0; padding: 0 0.4rem; }
