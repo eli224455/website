@@ -316,16 +316,15 @@ html[lang="am"] .i18n-en.i18n-block { display: none; }
   background: var(--ivory);
   color: var(--ink);
   padding: 0;
-  min-height: min(88vh, 840px);
 }
 .hero--light::before, .hero--light::after { display: none; }
 .hero-split {
   display: grid;
-  grid-template-columns: minmax(0, 1.05fr) minmax(0, .95fr);
-  min-height: inherit;
+  grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+  align-items: stretch;
 }
 .hero-copy {
-  padding: clamp(2.8rem, 5vw, 5.5rem) clamp(1.6rem, 4.5vw, 5rem);
+  padding: clamp(2.5rem, 3.6vw, 4.25rem) clamp(1.6rem, 4vw, 4.5rem);
   display: flex;
   flex-direction: column;
   justify-content: center;
@@ -341,7 +340,8 @@ html[lang="am"] .i18n-en.i18n-block { display: none; }
 .hero--light h1 {
   color: var(--navy);
   text-shadow: none;
-  max-width: 16ch;
+  max-width: 24ch;
+  font-size: clamp(2.2rem, 1.6rem + 2.1vw, 3.4rem);
   font-weight: 600;
   letter-spacing: -0.02em;
 }
@@ -349,34 +349,56 @@ html[lang="am"] .i18n-en.i18n-block { display: none; }
 .hero--light .hero-lead {
   color: var(--muted);
   text-shadow: none;
-  max-width: 48ch;
+  max-width: 56ch;
+}
+/* Name-address-phone strip spanning the full hero, so the copy column stays
+   short enough to balance the photograph beside it. */
+.hero-nap {
+  background: var(--ivory-warm);
+  border-top: 1px solid var(--line);
 }
 .hero--light .hero-meta {
-  border-top-color: var(--line);
-  margin-top: 2rem;
+  display: grid;
+  grid-template-columns: 1.5fr 1fr 1.3fr 1fr;
+  gap: 1.25rem 2.5rem;
+  margin: 0;
+  padding-block: clamp(1.35rem, 1.1rem + .7vw, 1.85rem);
+  border-top: 0;
 }
+.hero--light .hero-meta div { min-width: 0; }
 .hero--light .hero-meta dt { color: var(--gold); }
 .hero--light .hero-meta dd { color: var(--navy); font-weight: 550; }
-.hero--light .hero-meta a { color: var(--navy); }
+.hero--light .hero-meta a { color: var(--navy); text-decoration: none; }
 .hero--light .hero-meta a:hover { color: var(--gold); }
+/* Matted frame that tracks the copy column's height, so the two sides stay
+   balanced without cropping the 16:9 source into a narrow portrait strip. */
 .hero-visual {
   margin: 0;
   position: relative;
-  min-height: 100%;
-  overflow: hidden;
-  background: var(--ivory-warm);
+  display: flex;
+  align-items: stretch;
+  align-self: stretch;
+  padding: clamp(1.25rem, 1.8vw, 2rem) clamp(1.25rem, 2.2vw, 2.5rem);
 }
-.hero-visual::after {
+.hero-visual::before {
   content: "";
-  position: absolute; inset: 0;
-  box-shadow: inset 0 0 0 1px rgba(196,163,90,.18);
+  position: absolute;
+  top: clamp(0.5rem, 0.9vw, 1rem);
+  right: clamp(0.4rem, 1vw, 1.2rem);
+  bottom: clamp(0.5rem, 0.9vw, 1rem);
+  left: clamp(1.9rem, 3.4vw, 3.8rem);
+  border: 1px solid var(--gold-pale);
   pointer-events: none;
 }
 .hero-visual img {
-  width: 100%; height: 100%;
+  position: relative;
+  width: 100%;
+  height: 100%;
+  min-height: 26rem;
   object-fit: cover;
-  object-position: 42% 18%;
+  object-position: 38% 50%;
   display: block;
+  box-shadow: 0 24px 60px rgba(16, 32, 51, .16);
 }
 
 /* Trust bar */
@@ -467,9 +489,6 @@ html[lang="am"] .i18n-en.i18n-block { display: none; }
   line-height: 1.7;
 }
 .visit-hours { margin: .85rem 0 0; color: var(--muted); font-size: .9rem; }
-
-.photo-frame--lg { aspect-ratio: 4 / 3; min-height: 0; }
-.photo-frame--lg img { object-position: 50% 18%; }
 
 .post-card-title {
   font-family: var(--font-display);
@@ -718,12 +737,20 @@ html[lang="am"] .i18n-en.i18n-block { display: none; }
 }
 .disclaimer .wrap { max-width: 900px; }
 
+/* Every photograph on the site is 16:9, so frames stay landscape by default
+   and only crop where a taller shape is needed beside long text. */
 .photo-frame {
   margin: 0; overflow: hidden; border-radius: 3px;
-  box-shadow: var(--shadow-md); background: var(--navy-deep);
+  box-shadow: var(--shadow-md); background: var(--ivory-warm);
+  aspect-ratio: 16 / 9;
 }
-.photo-frame img { width: 100%; height: 100%; object-fit: cover; display: block; }
-.photo-frame--portrait { min-height: 420px; }
+.photo-frame img {
+  width: 100%; height: 100%;
+  object-fit: cover; object-position: center;
+  display: block;
+}
+.photo-frame--portrait { aspect-ratio: 4 / 3; }
+.photo-frame--lg { aspect-ratio: 3 / 2; }
 @media (min-width: 900px) {
   .split--photo { align-items: center; }
   .about-hero-grid { display: grid; grid-template-columns: .85fr 1.15fr; gap: 4rem; align-items: start; }
@@ -731,7 +758,7 @@ html[lang="am"] .i18n-en.i18n-block { display: none; }
 .about-hero-grid { display: grid; gap: 2.5rem; }
 .photo-strip { display: grid; grid-template-columns: 1fr; gap: 1rem; }
 @media (min-width: 800px) { .photo-strip { grid-template-columns: 1fr 1fr 1fr; } }
-.photo-strip .photo-frame { aspect-ratio: 4/3; }
+.photo-strip .photo-frame { aspect-ratio: 16 / 9; }
 
 .connect-grid {
   display: grid; gap: 1.25rem;
@@ -785,10 +812,18 @@ html[lang="am"] .i18n-en.i18n-block { display: none; }
 
 @media (max-width: 980px) {
   .hero-split { grid-template-columns: 1fr; }
-  .hero-visual { order: -1; min-height: 52vh; max-height: 62vh; }
+  .hero-visual { order: -1; padding: 0; align-self: auto; }
+  .hero-visual::before { display: none; }
+  .hero-visual img {
+    aspect-ratio: 16 / 9;
+    height: auto;
+    min-height: 0;
+    object-position: 50% 38%;
+    box-shadow: none;
+  }
   .hero-copy { padding: clamp(2rem, 5vw, 3rem) clamp(1.25rem, 4vw, 2rem) clamp(2.4rem, 5vw, 3.4rem); }
   .hero-copy::after { display: none; }
-  .hero--light { min-height: 0; }
+  .hero--light .hero-meta { grid-template-columns: 1fr 1fr; gap: 1.35rem 2rem; }
   .trust-grid { grid-template-columns: 1fr 1fr; gap: 1.5rem 1.25rem; }
   .trust-item { border-left: 0; padding: 0 0.4rem; }
   .trust-item:first-child { padding-left: 0.4rem; }
@@ -819,21 +854,11 @@ html[lang="am"] .i18n-en.i18n-block { display: none; }
     max-width: none;
   }
   .hero:not(.hero--light) h1 { font-size: clamp(1.85rem, 8vw, 2.4rem); }
-  .hero-split {
-    grid-template-columns: 1fr;
-    min-height: 0;
-  }
-  .hero-visual {
-    order: -1;
-    min-height: 48svh;
-    max-height: 56svh;
-  }
-  .hero-visual img { object-position: 48% 12%; }
+  .hero-split { grid-template-columns: 1fr; }
   .hero-copy {
     padding: 1.75rem 1.15rem 2.4rem;
   }
   .hero-copy::after { display: none; }
-  .hero--light { min-height: 0; }
   .hero--light h1 { font-size: clamp(2rem, 8.4vw, 2.55rem); max-width: none; }
   .hero--light .btn-row { flex-direction: column; align-items: stretch; margin-top: 1.5rem; }
   .hero--light .btn { justify-content: center; }
@@ -844,11 +869,11 @@ html[lang="am"] .i18n-en.i18n-block { display: none; }
   .connect-row { width: 100%; }
   .connect-row .btn, .hero:not(.hero--light) .btn-row .btn { width: 100%; justify-content: center; }
   .hero-meta div { min-width: 46%; }
-  .photo-frame--lg { aspect-ratio: 5 / 4; }
+  .hero--light .hero-meta { grid-template-columns: 1fr; gap: 1.15rem; }
   .grid--3, .grid--2 { grid-template-columns: 1fr; }
   .cta-band .btn-row { flex-direction: column; align-items: stretch; }
   .cta-band .btn { justify-content: center; }
-  .photo-frame--portrait { min-height: 280px; max-height: 420px; }
+  .photo-frame--portrait { aspect-ratio: 3 / 2; }
   .about-hero-grid { gap: 1.5rem; }
 }
 

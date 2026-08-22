@@ -178,16 +178,20 @@ def build_home():
         <a class="btn btn--gold" href="/contact/">Book a Consultation</a>
         <a class="btn btn--ghost" href="/practice-areas/">Explore Practice Areas</a>
       </div>
+    </div>
+    <figure class="hero-visual">
+      <img src="/assets/img/hero-portrait.png" alt="Elizabeth Tesfaye, attorney at Elizabeth Tesfaye Law Office in Addis Ababa, Ethiopia" width="1024" height="576" fetchpriority="high" decoding="async">
+    </figure>
+  </div>
+  <div class="hero-nap">
+    <div class="wrap">
       <dl class="hero-meta">
-        <div><dt>Office</dt><dd>{C.STREET}<br>{C.CITY}</dd></div>
+        <div><dt>Office</dt><dd>{C.STREET}, {C.CITY}</dd></div>
         <div><dt>Telephone</dt><dd><a href="tel:{C.PHONE}">{C.PHONE_DISPLAY}</a></dd></div>
         <div><dt>Email</dt><dd><a href="mailto:{C.EMAIL}">{C.EMAIL}</a></dd></div>
         <div><dt>Languages</dt><dd>English &amp; አማርኛ</dd></div>
       </dl>
     </div>
-    <figure class="hero-visual">
-      <img src="/assets/img/hero-portrait.png" alt="Elizabeth Tesfaye, attorney at Elizabeth Tesfaye Law Office in Addis Ababa, Ethiopia" width="1600" height="1200">
-    </figure>
   </div>
 </section>
 
@@ -200,7 +204,7 @@ def build_home():
 <section class="section section--paper">
   <div class="wrap grid grid--split split--photo">
     <figure class="photo-frame photo-frame--lg reveal">
-      <img src="/assets/img/team-office.png" alt="Elizabeth Tesfaye Law Office — legal consultation in Addis Ababa" width="1400" height="900">
+      <img src="/assets/img/team-office.png" alt="Elizabeth Tesfaye Law Office — legal consultation in Addis Ababa" width="1024" height="768" loading="lazy">
     </figure>
     <div>
       <span class="eyebrow">{H.FIRM['eyebrow']}</span>
@@ -225,7 +229,7 @@ def build_home():
         <p class="lead">{H.PRACTICE_INTRO['lead']}</p>
       </div>
       <figure class="photo-frame reveal">
-        <img src="/assets/img/courtroom.png" alt="Advocacy before the Ethiopian courts — Elizabeth Tesfaye Law Office" width="1400" height="900">
+        <img src="/assets/img/courtroom.png" alt="Advocacy before the Ethiopian courts — Elizabeth Tesfaye Law Office" width="1024" height="576" loading="lazy">
       </figure>
     </div>
     <div class="grid grid--3" style="margin-top:clamp(2rem, 1.5rem + 2vw, 3.5rem)">
@@ -312,7 +316,7 @@ def build_home():
       </div>
     </div>
     <figure class="photo-frame photo-frame--portrait reveal">
-      <img src="/assets/img/hero-portrait.png" alt="Elizabeth Tesfaye, attorney-at-law and legal consultant in Addis Ababa" width="1200" height="1400">
+      <img src="/assets/img/elizabeth-portrait.png" alt="Elizabeth Tesfaye, attorney-at-law and legal consultant in Addis Ababa" width="1024" height="576" loading="lazy">
     </figure>
   </div>
 </section>
@@ -320,7 +324,7 @@ def build_home():
 <section class="section">
   <div class="wrap grid grid--split split--photo">
     <figure class="photo-frame photo-frame--lg reveal">
-      <img src="/assets/img/library.png" alt="Law library at Elizabeth Tesfaye Law Office, Summit, Addis Ababa" width="1400" height="900">
+      <img src="/assets/img/library.png" alt="Law library at Elizabeth Tesfaye Law Office, Summit, Addis Ababa" width="1024" height="576" loading="lazy">
     </figure>
     <div>
       <span class="eyebrow">{H.VISIT['eyebrow']}</span>
@@ -393,7 +397,7 @@ def build_about():
     html += f"""<section class="section section--paper">
   <div class="wrap about-hero-grid">
     <figure class="photo-frame photo-frame--portrait reveal">
-      <img src="/assets/img/elizabeth-portrait.png" alt="Elizabeth Tesfaye, attorney-at-law, Addis Ababa" width="1200" height="1600">
+      <img src="/assets/img/elizabeth-portrait.png" alt="Elizabeth Tesfaye, attorney-at-law, Addis Ababa" width="1024" height="576">
     </figure>
     <div class="article-body prose">
       <p class="i18n-en">Elizabeth Tesfaye Law Office is a private practice in Addis Ababa, advising individuals, families and businesses on matters of Ethiopian law.</p>
@@ -441,13 +445,13 @@ def build_about():
 <section class="section section--warm section--tight">
   <div class="wrap photo-strip">
     <figure class="photo-frame reveal">
-      <img src="/assets/img/consultation.png" alt="Client consultation at the office" width="800" height="500">
+      <img src="/assets/img/consultation.png" alt="Client consultation at the office" width="1024" height="576">
     </figure>
     <figure class="photo-frame reveal">
-      <img src="/assets/img/office-desk.png" alt="Desk at Elizabeth Tesfaye Law Office overlooking Addis Ababa" width="800" height="500">
+      <img src="/assets/img/office-desk.png" alt="Desk at Elizabeth Tesfaye Law Office overlooking Addis Ababa" width="1024" height="576">
     </figure>
     <figure class="photo-frame reveal">
-      <img src="/assets/img/signing.png" alt="Signing a legal services agreement" width="800" height="500">
+      <img src="/assets/img/signing.png" alt="Signing a legal services agreement" width="1024" height="576">
     </figure>
   </div>
 </section>
@@ -685,7 +689,7 @@ def build_contact():
         "ምክክር በቀጠሮ ነው። ከአዲስ አበባ እና ከኢትዮጵያ ውጭ ለሚገኙ ደንበኞች በስልክ እና በቪዲዮ ስብሰባ ይገኛል። በጽሁፍ እስክንስማማ ድረስ ሚስጥራዊ ሰነዶችን አይላኩ።")}</p>
     </div>
     <figure class="photo-frame">
-      <img src="/assets/img/office-desk.png" alt="Elizabeth Tesfaye Law Office, Addis Ababa" width="1200" height="800">
+      <img src="/assets/img/office-desk.png" alt="Elizabeth Tesfaye Law Office, Addis Ababa" width="1024" height="576">
     </figure>
   </div>
 </section>
