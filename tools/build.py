@@ -19,6 +19,7 @@ import config as C
 import template as T
 from content_practice import PRACTICE_CONTENT
 from content_pages import FAQ_GROUPS, INSIGHTS, all_faq_pairs
+import content_home as H
 
 ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 TODAY = datetime.date.today().isoformat()
@@ -105,16 +106,53 @@ def sidebar(current_slug):
 # Pages
 # ===========================================================================
 
+def _paras(texts):
+    return "\n".join(f"      <p>{t}</p>" for t in texts)
+
+
 def build_home():
     path = "/"
-    title = "Lawyer in Addis Ababa | Family, Civil & Criminal Law"
-    desc = ("Elizabeth Tesfaye Law Office — Addis Ababa lawyer and former public "
-            "prosecutor. 13 years in family, civil, criminal and business law. "
-            "English and Amharic. Call +251 91 261 4966.")
+    title = H.TITLE
+    desc = H.DESCRIPTION
+
+    trust = []
+    for item in H.TRUST:
+        featured = " trust-item--featured" if item.get("featured") else ""
+        heading = item["title"]
+        trust.append(f"""      <div class="trust-item{featured}">
+        <div class="trust-icon">{T.ICONS[item['icon']]}</div>
+        <p class="trust-title">{heading}</p>
+        <p>{item['body']}</p>
+      </div>""")
+
+    audiences = "\n".join(f"""      <article class="audience-card reveal">
+        <h3>{g['h3']}</h3>
+        <p>{g['body']}</p>
+      </article>""" for g in H.CLIENTS["groups"])
+
+    why_points = "\n".join(f"""        <li>
+          <h3>{ptitle}</h3>
+          <p>{body}</p>
+        </li>""" for ptitle, body in H.WHY["points"])
+
+    steps = []
+    for i, (step_title, body) in enumerate(H.PROCESS["steps"], 1):
+        steps.append(f"""      <li class="process-step reveal">
+        <span class="feature-num">{i}</span>
+        <div>
+          <h3>{step_title}</h3>
+          <p>{body}</p>
+        </div>
+      </li>""")
+
+    faqs = "\n".join(f"""      <article class="home-faq-item reveal">
+        <h3>{q}</h3>
+        <p>{a}</p>
+      </article>""" for q, a in H.HOME_FAQ["items"])
 
     posts = "\n".join(f"""      <article class="post-card reveal">
         <p class="post-meta">{p['category']} &middot; {p['date_display']}</p>
-        <h3><a href="/insights/{p['slug']}/">{p['title']}</a></h3>
+        <p class="post-card-title"><a href="/insights/{p['slug']}/">{p['title']}</a></p>
         <p>{p['description']}</p>
       </article>""" for p in INSIGHTS)
 
@@ -129,23 +167,82 @@ def build_home():
                                  "publisher": {"@id": C.SITE_URL + "/#organization"}}])
     html += T.header(path)
 
-    html += f"""<section class="hero hero--photo">
-  <div class="hero-media">
-    <img src="/assets/img/elizabeth-portrait.png" alt="Elizabeth Tesfaye, lawyer in Addis Ababa, at Elizabeth Tesfaye Law Office" width="1600" height="900">
-  </div>
-  <div class="wrap">
-    <div class="hero-inner">
-      <span class="eyebrow">{T.tx("Addis Ababa lawyer · English &amp; አማርኛ", "የአዲስ አበባ ጠበቃ · እንግሊዝኛ እና አማርኛ")}</span>
-      <h1>{T.tx("Lawyer in Addis Ababa for family, court and business matters", "በአዲስ አበባ ጠበቃ — የቤተሰብ፣ ፍርድ ቤት እና የንግድ ጉዳዮች", True)}</h1>
-      <p class="hero-lead i18n-en">Elizabeth Tesfaye is a former public prosecutor in criminal and civil matters, now in private practice. Thirteen years in Ethiopian law — clear advice, careful files, complete discretion.</p>
-      <p class="hero-lead i18n-am" lang="am">ኤልሳቤት ተስፋዬ በወንጀል እና በፍትሐ ብሔር ጉዳዮች የቀድሞ ዐቃቤ ሕግ ስትሆን አሁን በግል ልምምድ ትሠራለች። 13 ዓመት የኢትዮጵያ ህግ — ግልጽ ምክር፣ በጥንቃቄ የተዘጋጁ ፋይሎች፣ ሙሉ ሚስጥራዊነት።</p>
-      {T.connect_buttons()}
+    html += f"""<section class="hero hero--light">
+  <div class="hero-split">
+    <div class="hero-copy">
+      <span class="eyebrow">{H.HERO['eyebrow']}</span>
+      <h1>{H.HERO['h1']}</h1>
+      <hr class="rule">
+      <p class="hero-lead">{H.HERO['lead']}</p>
+      <div class="btn-row">
+        <a class="btn btn--gold" href="/contact/">Book a Consultation</a>
+        <a class="btn btn--ghost" href="/practice-areas/">Explore Practice Areas</a>
+      </div>
       <dl class="hero-meta">
-        <div><dt>{T.tx("Experience", "ልምድ")}</dt><dd>{T.tx("13 years · former public prosecutor", "13 ዓመት · የቀድሞ ዐቃቤ ሕግ")}</dd></div>
-        <div><dt>{T.tx("Languages", "ቋንቋዎች")}</dt><dd>English &amp; አማርኛ</dd></div>
-        <div><dt>{T.tx("Office", "ቢሮ")}</dt><dd>{C.STREET}<br>{C.CITY}</dd></div>
-        <div><dt>{T.tx("Telephone", "ስልክ")}</dt><dd><a href="tel:{C.PHONE}">{C.PHONE_DISPLAY}</a></dd></div>
+        <div><dt>Office</dt><dd>{C.STREET}<br>{C.CITY}</dd></div>
+        <div><dt>Telephone</dt><dd><a href="tel:{C.PHONE}">{C.PHONE_DISPLAY}</a></dd></div>
+        <div><dt>Email</dt><dd><a href="mailto:{C.EMAIL}">{C.EMAIL}</a></dd></div>
+        <div><dt>Languages</dt><dd>English &amp; አማርኛ</dd></div>
       </dl>
+    </div>
+    <figure class="hero-visual">
+      <img src="/assets/img/hero-portrait.png" alt="Elizabeth Tesfaye, attorney at Elizabeth Tesfaye Law Office in Addis Ababa, Ethiopia" width="1600" height="1200">
+    </figure>
+  </div>
+</section>
+
+<section class="trust-bar" aria-label="Why this law office">
+  <div class="wrap trust-grid">
+{"".join(trust)}
+  </div>
+</section>
+
+<section class="section section--paper">
+  <div class="wrap grid grid--split split--photo">
+    <figure class="photo-frame photo-frame--lg reveal">
+      <img src="/assets/img/team-office.png" alt="Elizabeth Tesfaye Law Office — legal consultation in Addis Ababa" width="1400" height="900">
+    </figure>
+    <div>
+      <span class="eyebrow">{H.FIRM['eyebrow']}</span>
+      <h2>{H.FIRM['h2']}</h2>
+      <hr class="rule">
+{_paras(H.FIRM['paras'])}
+      <div class="btn-row">
+        <a class="btn btn--gold" href="/contact/">Describe your matter</a>
+        <a class="btn btn--ghost" href="/about/">About the firm</a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="section">
+  <div class="wrap">
+    <div class="practice-intro grid grid--split split--photo">
+      <div class="section-head" style="margin-bottom:0">
+        <span class="eyebrow">{H.PRACTICE_INTRO['eyebrow']}</span>
+        <h2>{H.PRACTICE_INTRO['h2']}</h2>
+        <hr class="rule">
+        <p class="lead">{H.PRACTICE_INTRO['lead']}</p>
+      </div>
+      <figure class="photo-frame reveal">
+        <img src="/assets/img/courtroom.png" alt="Advocacy before the Ethiopian courts — Elizabeth Tesfaye Law Office" width="1400" height="900">
+      </figure>
+    </div>
+    <div class="grid grid--3" style="margin-top:clamp(2rem, 1.5rem + 2vw, 3.5rem)">
+{practice_cards()}
+    </div>
+  </div>
+</section>
+
+<section class="section section--warm">
+  <div class="wrap">
+    <div class="section-head">
+      <span class="eyebrow">{H.CLIENTS['eyebrow']}</span>
+      <h2>{H.CLIENTS['h2']}</h2>
+      <hr class="rule">
+    </div>
+    <div class="grid grid--3">
+{audiences}
     </div>
   </div>
 </section>
@@ -153,87 +250,126 @@ def build_home():
 <section class="section section--paper">
   <div class="wrap">
     <div class="section-head section-head--center">
-      <span class="eyebrow">{T.tx("What we do", "ምን እናደርጋለን")}</span>
-      <h2>{T.tx("Practice areas", "የስራ መስኮች")}</h2>
+      <span class="eyebrow">{H.WHY['eyebrow']}</span>
+      <h2>{H.WHY['h2']}</h2>
       <hr class="rule rule--center">
-      <p class="lead i18n-en">Six areas of Ethiopian law, handled from the first conversation through to judgment and enforcement. Advice is given in English and Amharic.</p>
-      <p class="lead i18n-am" lang="am">ስድስት የኢትዮጵያ ህግ መስኮች — ከመጀመሪያው ውይይት እስከ ፍርድ እና አፈጻጸም። ምክሩ በእንግሊዝኛ እና በአማርኛ ይሰጣል።</p>
+{_paras(H.WHY['paras'])}
     </div>
-    <div class="grid grid--3">
-{practice_cards()}
+    <div class="stats stats--light">
+      <div><div class="stat-value">6</div><div class="stat-label">Practice areas</div></div>
+      <div><div class="stat-value">2</div><div class="stat-label">Languages, English &amp; Amharic</div></div>
+      <div><div class="stat-value">1</div><div class="stat-label">Business day reply</div></div>
     </div>
+    <ul class="why-grid">
+{why_points}
+    </ul>
+  </div>
+</section>
+
+<section class="section">
+  <div class="wrap">
+    <div class="section-head">
+      <span class="eyebrow">{H.PROCESS['eyebrow']}</span>
+      <h2>{H.PROCESS['h2']}</h2>
+      <hr class="rule">
+      <p class="lead">{H.PROCESS['lead']}</p>
+    </div>
+    <ol class="process-list">
+{"".join(steps)}
+    </ol>
+  </div>
+</section>
+
+<section class="section section--warm">
+  <div class="wrap">
+    <div class="section-head">
+      <span class="eyebrow">{H.HOME_FAQ['eyebrow']}</span>
+      <h2>{H.HOME_FAQ['h2']}</h2>
+      <hr class="rule">
+    </div>
+    <div class="home-faq">
+{faqs}
+    </div>
+    <div class="btn-row">
+      <a class="btn btn--ghost" href="/faq/">All 20 questions</a>
+    </div>
+  </div>
+</section>
+
+<section class="section section--paper">
+  <div class="wrap grid grid--split split--photo">
+    <div>
+      <span class="eyebrow">{H.ATTORNEY['eyebrow']}</span>
+      <h2>{H.ATTORNEY['h2']}</h2>
+      <hr class="rule">
+{_paras(H.ATTORNEY['paras'])}
+      <figure class="quote">
+        <blockquote>{H.ATTORNEY['quote']}</blockquote>
+        <figcaption><strong>{H.ATTORNEY['quote_attr']}</strong></figcaption>
+      </figure>
+      <div class="btn-row">
+        <a class="btn btn--ghost" href="/about/">Read more</a>
+      </div>
+    </div>
+    <figure class="photo-frame photo-frame--portrait reveal">
+      <img src="/assets/img/hero-portrait.png" alt="Elizabeth Tesfaye, attorney-at-law and legal consultant in Addis Ababa" width="1200" height="1400">
+    </figure>
   </div>
 </section>
 
 <section class="section">
   <div class="wrap grid grid--split split--photo">
-    <figure class="photo-frame reveal">
-      <img src="/assets/img/consultation.png" alt="Elizabeth Tesfaye in consultation with clients" width="1200" height="800">
+    <figure class="photo-frame photo-frame--lg reveal">
+      <img src="/assets/img/library.png" alt="Law library at Elizabeth Tesfaye Law Office, Summit, Addis Ababa" width="1400" height="900">
     </figure>
     <div>
-      <span class="eyebrow">{T.tx("Why clients choose this office", "ደንበኞች ለምን ይመርጣሉ")}</span>
-      <h2>{T.tx("Advice you can act on", "ሊተገበር የሚችል ምክር")}</h2>
+      <span class="eyebrow">{H.VISIT['eyebrow']}</span>
+      <h2>{H.VISIT['h2']}</h2>
       <hr class="rule">
-      <p class="i18n-en">Legal problems are stressful because they are opaque. People do not know what the law says, what is likely to happen, or how long it will take.</p>
-      <p class="i18n-am" lang="am">የህግ ችግሮች አስጨናቂ የሚሆኑት ግልጽ ስላልሆኑ ነው። ህጉ ምን እንደሚል፣ ምን ሊሆን እንደሚችል ወይም ምን ያህል ጊዜ እንደሚወስድ አይታወቅም።</p>
-      <p class="i18n-en">Work here begins by removing that uncertainty. You receive a candid picture of your position — including the parts that are not in your favour — before you commit to a course of action.</p>
-      <p class="i18n-am" lang="am">ስራው እዚህ የሚጀምረው ያንን እርግጠኛ አለመሆን በማስወገድ ነው። ከመወሰንዎ በፊት የእርስዎን አቋም በግልጽ — የማይመቹትንም ጨምሮ — ያገኛሉ።</p>
+{_paras(H.VISIT['paras'])}
       <div class="btn-row">
-        <a class="btn btn--ghost" href="/about/">{T.tx("About Elizabeth", "ስለ ኤልሳቤት")}</a>
+        <a class="btn btn--gold" href="/contact/">Contact &amp; directions</a>
+        <a class="btn btn--ghost" href="tel:{C.PHONE}">Call {C.PHONE_DISPLAY}</a>
       </div>
+      <address class="visit-nap">
+        <strong>{C.FIRM_NAME}</strong><br>
+        {C.STREET}<br>
+        {C.CITY}, {C.COUNTRY}<br>
+        <a href="tel:{C.PHONE}">{C.PHONE_DISPLAY}</a> · <a href="mailto:{C.EMAIL}">{C.EMAIL}</a>
+        <p class="visit-hours">Monday – Friday, 8:30 AM – 5:30 PM · Saturday by appointment · Sunday closed</p>
+      </address>
     </div>
-  </div>
-</section>
-
-<section class="section section--navy section--tight">
-  <div class="wrap">
-    <div class="stats">
-      <div><div class="stat-value">13</div><div class="stat-label">{T.tx("Years in practice", "ዓመታት ልምድ")}</div></div>
-      <div><div class="stat-value">{T.tx("Prosecutor", "ዐቃቤ ሕግ")}</div><div class="stat-label">{T.tx("Criminal &amp; civil, now private practice", "ወንጀል እና ፍትሐ ብሔር፣ አሁን ግል ልምምድ")}</div></div>
-      <div><div class="stat-value">2</div><div class="stat-label">{T.tx("English &amp; Amharic", "እንግሊዝኛ እና አማርኛ")}</div></div>
-      <div><div class="stat-value">6</div><div class="stat-label">{T.tx("Practice areas", "የስራ መስኮች")}</div></div>
-    </div>
-  </div>
-</section>
-
-<section class="section section--warm">
-  <div class="wrap grid grid--split split--photo">
-    <div>
-      <span class="eyebrow">{T.tx("The attorney", "ጠበቃዋ")}</span>
-      <h2>{C.ATTORNEY_NAME}</h2>
-      <hr class="rule">
-      <p class="i18n-en">Elizabeth Tesfaye served as a public prosecutor in criminal and civil matters before opening this private practice. She brings 13 years of experience in Ethiopian law — family, civil litigation, succession, corporate matters and criminal defense — to every file she takes on.</p>
-      <p class="i18n-am" lang="am">ኤልሳቤት ተስፋዬ ይህን የግል ልምምድ ከመክፈቷ በፊት በወንጀል እና በፍትሐ ብሔር ጉዳዮች ዐቃቤ ሕግ ሆና አገልግላለች። 13 ዓመት የኢትዮጵያ ህግ ልምድ — የቤተሰብ፣ የፍትሐ ብሔር ክስ፣ ውርስ፣ የኮርፖሬት ጉዳዮች እና የወንጀል መከላከያ — ወደ እያንዳንዱ ፋይል ታመጣለች።</p>
-      <p class="i18n-en">Consultations are held in English and Amharic, in person at Summit or by telephone and video for clients outside Addis Ababa and abroad.</p>
-      <p class="i18n-am" lang="am">ምክክሮች በእንግሊዝኛ እና በአማርኛ ይካሄዳሉ — በሰሚት በአካል፣ ወይም ከአዲስ አበባ ውጭ እና ከውጭ ሀገር ለሚገኙ ደንበኞች በስልክ እና በቪዲዮ።</p>
-      <div class="btn-row">
-        <a class="btn btn--ghost" href="/about/">{T.tx("Read more", "ተጨማሪ ያንብቡ")}</a>
-      </div>
-    </div>
-    <figure class="photo-frame reveal">
-      <img src="/assets/img/signing.png" alt="Legal documents prepared at Elizabeth Tesfaye Law Office" width="1200" height="800">
-    </figure>
   </div>
 </section>
 
 <section class="section section--paper">
   <div class="wrap">
     <div class="section-head">
-      <span class="eyebrow">{T.tx("Legal insights", "የህግ ጽሑፎች")}</span>
-      <h2>{T.tx("Notes on Ethiopian law", "ስለ ኢትዮጵያ ህግ ማስታወሻዎች")}</h2>
+      <span class="eyebrow">{H.INSIGHTS['eyebrow']}</span>
+      <h2>{H.INSIGHTS['h2']}</h2>
       <hr class="rule">
-      <p class="lead">{T.tx("Practical explanations of the questions clients ask most often.", "ደንበኞች በብዛት የሚጠይቋቸው ጥያቄዎች በቀላሉ የተገለጹ።")}</p>
+      <p class="lead">{H.INSIGHTS['lead']}</p>
     </div>
     <div class="grid grid--3">
 {posts}
     </div>
     <div class="btn-row">
-      <a class="btn btn--ghost" href="/insights/">{T.tx("All insights", "ሁሉም ጽሑፎች")}</a>
+      <a class="btn btn--ghost" href="/insights/">All insights</a>
     </div>
   </div>
 </section>
 
-{T.cta_band()}
+<section class="cta-band cta-band--light">
+  <div class="wrap">
+    <span class="eyebrow">{H.CTA['eyebrow']}</span>
+    <h2>{H.CTA['h2']}</h2>
+    <p>{H.CTA['body']}</p>
+    <div class="btn-row" style="justify-content:center">
+      <a class="btn btn--gold" href="/contact/">Book a Consultation</a>
+      <a class="btn btn--navy" href="tel:{C.PHONE}">Call {C.PHONE_DISPLAY}</a>
+    </div>
+  </div>
+</section>
 """
     html += T.footer()
     write(path, html)
